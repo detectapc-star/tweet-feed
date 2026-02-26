@@ -7,14 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
 
-<!-- ============================================================
-  STEP 1 — ADSENSE SETUP:
-  When Google approves your AdSense account, replace the line
-  below with the <script> tag they give you. It looks like:
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
-============================================================ -->
+<!-- AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6352881613971826"
      crossorigin="anonymous"></script>
+
 <style>
   :root {
     --ink: #0f0e0c;
@@ -38,14 +34,6 @@
     border-bottom: 3px double var(--ink);
     padding: 1.5rem 2rem 1rem;
     text-align: center;
-  }
-  .masthead-date {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .72rem;
-    letter-spacing: .12em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: .5rem;
   }
   .masthead h1 {
     font-family: 'Playfair Display', serif;
@@ -91,59 +79,6 @@
     position: sticky;
     top: 1rem;
   }
-  .ad-card {
-    background: var(--ad-bg);
-    border: 1px solid var(--border);
-    padding: 1rem;
-  }
-  .ad-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .58rem;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-    padding-bottom: .35rem;
-    margin-bottom: .7rem;
-  }
-  .ad-image-placeholder {
-    width: 100%;
-    aspect-ratio: 4/3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: .7rem;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .65rem;
-    letter-spacing: .1em;
-  }
-  .ad-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: .95rem;
-    font-weight: 700;
-    display: block;
-    margin-bottom: .2rem;
-  }
-  .ad-copy {
-    font-size: .72rem;
-    color: var(--muted);
-    line-height: 1.5;
-    font-style: italic;
-  }
-  .ad-cta {
-    display: inline-block;
-    margin-top: .6rem;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .62rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    text-decoration: none;
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 1px;
-    cursor: pointer;
-  }
-  .ad-tall .ad-image-placeholder { aspect-ratio: 2/3; }
 
   .feed {
     border-left: 1px solid var(--border);
@@ -194,19 +129,17 @@
 
 <div class="layout">
 
+  <!-- LEFT SIDEBAR -->
   <aside class="sidebar">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6352881613971826"
-     crossorigin="anonymous"></script>
-<!-- Ad Unit A -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6352881613971826"
-     data-ad-slot="8477703194"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6352881613971826"
+         data-ad-slot="8477703194"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
   </aside>
 
   <!-- TWEET FEED -->
@@ -239,18 +172,19 @@
     </div>
 
   </main>
-<aside class="sidebar"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6352881613971826"
-     crossorigin="anonymous"></script>
-<!-- Ad Unit Right Side -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-6352881613971826"
-     data-ad-slot="4399361964"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script></aside>
+
+  <!-- RIGHT SIDEBAR -->
+  <aside class="sidebar">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-6352881613971826"
+         data-ad-slot="4399361964"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </aside>
 
 </div>
 
@@ -262,14 +196,12 @@
   <a href="privacy-policy.html" style="color:inherit;">Privacy Policy</a>
 </footer>
 
-<!-- Twitter's official embed script — makes the cards render properly -->
+<!-- Twitter embed script -->
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <script>
   const now = new Date();
   const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const dateStr = now.toLocaleDateString('en-US', opts).toUpperCase();
-  
   document.getElementById('footer-date').textContent = now.toLocaleDateString('en-US', opts);
 
   // Stagger the fade-in animations
