@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FundNoEvil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #ffffff;
+    --accent: #c8392b;
+    --muted: #7a7265;
+    --border: #c9bfaa;
+    --ad-bg: #ede8de;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    min-height: 100vh;
+  }
+
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 1.5rem 2rem 1rem;
+    text-align: center;
+  }
+  .masthead-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .72rem;
+    letter-spacing: .12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: .5rem;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  .masthead-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: .5rem;
+    border-top: 1px solid var(--border);
+    padding-top: .5rem;
+  }
+  .accent-rule {
+    width: 2rem;
+    height: 3px;
+    background: var(--accent);
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 .6rem;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    gap: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    align-items: start;
+  }
+
+  .sidebar {
+    padding: 1.5rem .75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    position: sticky;
+    top: 1rem;
+  }
+  .ad-card {
+    background: var(--ad-bg);
+    border: 1px solid var(--border);
+    padding: 1rem;
+  }
+  .ad-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .58rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: .35rem;
+    margin-bottom: .7rem;
+  }
+  .ad-image-placeholder {
+    width: 100%;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: .7rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .65rem;
+    letter-spacing: .1em;
+  }
+  .ad-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: .95rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: .2rem;
+  }
+  .ad-copy {
+    font-size: .72rem;
+    color: var(--muted);
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .ad-cta {
+    display: inline-block;
+    margin-top: .6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .62rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+    cursor: pointer;
+  }
+  .ad-tall .ad-image-placeholder { aspect-ratio: 2/3; }
+
+  .feed {
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    padding: 1.5rem;
+  }
+
+  .tweet-wrap {
+    margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: center;
+    animation: fadeUp .4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 3px double var(--ink);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .65rem;
+    color: var(--muted);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 760px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .feed { border: none; padding: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <h1>@fundnoevil</h1>
+  <div class="masthead-sub">
+    <span class="accent-rule"></span>
+    The last seven days on X · A personal archive
+    <span class="accent-rule"></span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT ADS -->
+  <aside class="sidebar">
+    <div class="ad-card">
+      <div class="ad-label">Advertisement</div>
+      <div class="ad-image-placeholder" style="background:linear-gradient(135deg,#2c3e50,#4a6fa5)">
+        <span style="color:#fff;opacity:.7">BRAND LOGO</span>
+      </div>
+      <span class="ad-brand">Roast & Co.</span>
+      <p class="ad-copy">Single-origin beans, sourced with intention. Your mornings deserve better.</p>
+      <a class="ad-cta">Shop now →</a>
+    </div>
+    <div class="ad-card">
+      <div class="ad-label">Sponsored</div>
+      <div class="ad-image-placeholder ad-tall" style="background:linear-gradient(160deg,#1a1a2e,#e94560)">
+        <span style="color:#fff;opacity:.7">COVER ART</span>
+      </div>
+      <span class="ad-brand">NightRead</span>
+      <p class="ad-copy">Books curated by people who actually read.</p>
+      <a class="ad-cta">Explore →</a>
+    </div>
+    <div class="ad-card">
+      <div class="ad-label">Advertisement</div>
+      <div class="ad-image-placeholder" style="background:linear-gradient(135deg,#134e4a,#a7f3d0)">
+        <span style="color:#064e3b">VISUAL</span>
+      </div>
+      <span class="ad-brand">Verdant Studio</span>
+      <p class="ad-copy">Handcrafted ceramics, built to outlast trends.</p>
+      <a class="ad-cta">View collection →</a>
+    </div>
+  </aside>
+
+  <!-- TWEET FEED -->
+  <!-- ============================================================
+    HOW TO ADD YOUR TWEETS:
+    1. Go to x.com and open one of your tweets
+    2. Click the ··· menu → "Embed post"
+    3. Copy the <blockquote>...</blockquote> code Twitter gives you
+    4. Paste it inside a new <div class="tweet-wrap"> block below
+    5. Repeat for each tweet — newest at the top!
+  ============================================================ -->
+  <main class="feed" id="feed">
+
+    <div class="tweet-wrap">
+      <blockquote class="twitter-tweet" data-dnt="true">
+        <p lang="en" dir="ltr">Replace this with your first tweet embed code from X.</p>
+      </blockquote>
+    </div>
+
+    <div class="tweet-wrap">
+      <blockquote class="twitter-tweet" data-dnt="true">
+        <p lang="en" dir="ltr">Replace this with your second tweet embed code from X.</p>
+      </blockquote>
+    </div>
+
+    <div class="tweet-wrap">
+      <blockquote class="twitter-tweet" data-dnt="true">
+        <p lang="en" dir="ltr">Replace this with your third tweet embed code from X.</p>
+      </blockquote>
+    </div>
+
+  </main>
+
+  <!-- RIGHT ADS -->
+  <aside class="sidebar">
+    <div class="ad-card">
+      <div class="ad-label">Advertisement</div>
+      <div class="ad-image-placeholder" style="background:linear-gradient(135deg,#7c3aed,#c4b5fd)">
+        <span style="color:#fff;opacity:.8">AI PRODUCT</span>
+      </div>
+      <span class="ad-brand">Clarifai Pro</span>
+      <p class="ad-copy">From idea to launch in an afternoon. No-code AI for builders.</p>
+      <a class="ad-cta">Try free →</a>
+    </div>
+    <div class="ad-card">
+      <div class="ad-label">Sponsored</div>
+      <div class="ad-image-placeholder" style="background:linear-gradient(135deg,#92400e,#fde68a)">
+        <span style="color:#78350f">MAGAZINE</span>
+      </div>
+      <span class="ad-brand">The Margin</span>
+      <p class="ad-copy">A weekly letter about culture, craft, and the internet.</p>
+      <a class="ad-cta">Subscribe →</a>
+    </div>
+    <div class="ad-card">
+      <div class="ad-label">Advertisement</div>
+      <div class="ad-image-placeholder ad-tall" style="background:linear-gradient(160deg,#0f172a,#0ea5e9)">
+        <span style="color:#bae6fd;opacity:.8">SAAS APP</span>
+      </div>
+      <span class="ad-brand">Draftly</span>
+      <p class="ad-copy">Write better threads. Schedule smarter. Grow your audience.</p>
+      <a class="ad-cta">Start free →</a>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <span>Showing tweets from the past 7 days</span>
+  &nbsp;·&nbsp;
+  <span id="footer-date"></span>
+</footer>
+
+<!-- Twitter's official embed script — makes the cards render properly -->
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<script>
+  const now = new Date();
+  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const dateStr = now.toLocaleDateString('en-US', opts).toUpperCase();
+  
+  document.getElementById('footer-date').textContent = now.toLocaleDateString('en-US', opts);
+
+  // Stagger the fade-in animations
+  document.querySelectorAll('.tweet-wrap').forEach((el, i) => {
+    el.style.animationDelay = (i * 80) + 'ms';
+  });
+</script>
+
+</body>
+</html>
