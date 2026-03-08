@@ -3,207 +3,1001 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>@elonmusk</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
+<title>TubeGrab — YouTube to MP4 Converter</title>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 
 <!-- AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6352881613971826"
      crossorigin="anonymous"></script>
 
 <style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
   :root {
-    --ink: #0f0e0c;
-    --paper: #ffffff;
-    --accent: #c8392b;
-    --muted: #7a7265;
-    --border: #c9bfaa;
-    --ad-bg: #ede8de;
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface-2: #1a1a26;
+    --border: #2a2a3a;
+    --accent: #ff3c5f;
+    --accent-glow: #ff3c5f55;
+    --accent-2: #7c3aed;
+    --text: #e8e8f0;
+    --text-dim: #8888a0;
+    --success: #22c55e;
+    --radius: 14px;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
 
   body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Libre Baskerville', Georgia, serif;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
   }
 
-  .masthead {
-    border-bottom: 3px double var(--ink);
-    padding: 1.5rem 2rem 1rem;
-    text-align: center;
-  }
-  .masthead h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.4rem, 6vw, 4.5rem);
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -.02em;
-  }
-  .masthead-sub {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .7rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: .5rem;
-    border-top: 1px solid var(--border);
-    padding-top: .5rem;
-  }
-  .accent-rule {
-    width: 2rem;
-    height: 3px;
-    background: var(--accent);
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0 .6rem;
+  /* === Animated Background === */
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,60,95,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,60,95,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%);
   }
 
-  .layout {
+  .bg-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+    animation: orbFloat 12s ease-in-out infinite alternate;
+  }
+  .bg-orb--1 {
+    width: 500px; height: 500px;
+    top: -150px; left: -100px;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    opacity: 0.12;
+  }
+  .bg-orb--2 {
+    width: 400px; height: 400px;
+    bottom: -100px; right: -80px;
+    background: radial-gradient(circle, var(--accent-2) 0%, transparent 70%);
+    opacity: 0.1;
+    animation-delay: -6s;
+  }
+
+  @keyframes orbFloat {
+    to { transform: translate(40px, 30px) scale(1.1); }
+  }
+
+  /* === Layout === */
+  .page-layout {
+    position: relative;
+    z-index: 1;
     display: grid;
-    grid-template-columns: 200px 1fr 200px;
-    gap: 0;
-    max-width: 1100px;
+    grid-template-columns: 160px 1fr 160px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
-    align-items: start;
+    padding: 0 16px;
+    gap: 24px;
   }
 
-  .sidebar {
-    padding: 1.5rem .75rem;
+  .wrapper {
+    min-width: 0;
+  }
+
+  /* === Side Ad Columns === */
+  .ad-rail {
+    padding-top: 180px;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .ad-slot {
+    width: 160px;
+    background: var(--surface);
+    border: 1.5px dashed var(--border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    position: relative;
+    transition: border-color 0.3s;
+    overflow: hidden;
+  }
+  .ad-slot:hover { border-color: var(--accent); }
+
+  .ad-slot--tall { height: 600px; }
+  .ad-slot--medium { height: 300px; }
+  .ad-slot--square { height: 160px; }
+
+  .ad-sticky {
     position: sticky;
-    top: 1rem;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
   }
 
-  .feed {
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    padding: 1.5rem;
+  .ad-slot--banner {
+    width: 100%;
+    height: 90px;
+    max-width: 728px;
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1.5px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .ad-slot--banner:hover { border-color: var(--accent); }
+
+  .ad-slot-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.5;
+  }
+  .ad-slot-inner svg { opacity: 0.4; }
+  .ad-slot-label {
+    font-size: 0.62rem;
+    color: var(--text-dim);
+    opacity: 0.4;
+    margin-top: 4px;
   }
 
-  .tweet-wrap {
-    margin-bottom: 1.25rem;
+  /* Shimmer effect on ad slots */
+  .ad-slot::before, .ad-slot--banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 30%,
+      rgba(255,255,255,0.02) 50%,
+      transparent 70%
+    );
+    background-size: 200% 200%;
+    animation: adShimmer 6s ease-in-out infinite;
+  }
+
+  @keyframes adShimmer {
+    0%, 100% { background-position: 200% 200%; }
+    50% { background-position: 0% 0%; }
+  }
+
+  /* Top banner ad */
+  .top-banner-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 16px 0;
     display: flex;
     justify-content: center;
-    animation: fadeUp .4s ease both;
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* Bottom banner */
+  .bottom-banner-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    justify-content: center;
   }
 
+  /* Hide side rails on smaller screens */
+  @media (max-width: 1060px) {
+    .page-layout {
+      grid-template-columns: 1fr;
+      max-width: 780px;
+    }
+    .ad-rail { display: none; }
+  }
+
+  /* === Navbar === */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+    animation: fadeDown 0.6s ease-out;
+  }
+  .logo {
+    font-family: 'Dela Gothic One', sans-serif;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 20px var(--accent-glow);
+    position: relative;
+    overflow: hidden;
+  }
+  .logo-icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2));
+  }
+  .logo-icon svg { position: relative; z-index: 1; }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+  }
+  nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--text); }
+
+  /* === Hero === */
+  .hero {
+    text-align: center;
+    padding: 80px 0 40px;
+    animation: fadeUp 0.7s ease-out 0.1s both;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 16px 6px 8px;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    margin-bottom: 28px;
+  }
+  .badge-dot {
+    width: 8px; height: 8px;
+    background: var(--success);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(34,197,94,0.5);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    font-family: 'Dela Gothic One', sans-serif;
+    font-size: clamp(2.2rem, 6vw, 3.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero p {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* === Converter Card === */
+  .converter {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    margin-top: 40px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.7s ease-out 0.25s both;
+  }
+  .converter::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .input-group {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .input-group input {
+    flex: 1;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .input-group input::placeholder { color: var(--text-dim); }
+  .input-group input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  .btn-convert {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px 28px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.15s, box-shadow 0.25s, background 0.25s;
+    box-shadow: 0 4px 20px var(--accent-glow);
+  }
+  .btn-convert:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--accent-glow);
+  }
+  .btn-convert:active { transform: translateY(0); }
+  .btn-convert:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* === Format Selector === */
+  .format-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .format-label {
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+  .format-options {
+    display: flex;
+    gap: 8px;
+  }
+  .format-btn {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .format-btn:hover { border-color: var(--text-dim); color: var(--text); }
+  .format-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 14px var(--accent-glow);
+  }
+
+  .quality-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* === Result Panel === */
+  .result {
+    display: none;
+    margin-top: 28px;
+    padding: 24px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    animation: fadeUp 0.4s ease-out;
+  }
+  .result.show { display: block; }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .result-thumb {
+    width: 120px;
+    height: 68px;
+    background: var(--surface-2);
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+  }
+  .result-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .result-thumb svg { opacity: 0.3; }
+  .result-info h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .result-info p {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+  }
+
+  /* Progress Bar */
+  .progress-wrap {
+    background: var(--surface-2);
+    border-radius: 100px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius: 100px;
+    transition: width 0.3s ease-out;
+  }
+  .progress-text {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .btn-download {
+    display: none;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    border: none;
+    border-radius: var(--radius);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.25s;
+    box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+    margin-top: 12px;
+  }
+  .btn-download.show { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .btn-download:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,0.4); }
+
+  /* === Features === */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 60px;
+    animation: fadeUp 0.7s ease-out 0.4s both;
+  }
+  .feature {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 22px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .feature:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+  .feature-icon {
+    width: 44px; height: 44px;
+    background: var(--surface-2);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 16px;
+  }
+  .feature h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .feature p {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+
+  /* === FAQ === */
+  .faq {
+    margin-top: 70px;
+    animation: fadeUp 0.7s ease-out 0.5s both;
+  }
+  .faq h2 {
+    font-family: 'Dela Gothic One', sans-serif;
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .faq-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .faq-item:hover { border-color: var(--accent); }
+  .faq-q {
+    padding: 18px 22px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.93rem;
+    user-select: none;
+  }
+  .faq-q svg { transition: transform 0.3s; flex-shrink: 0; margin-left: 12px; }
+  .faq-item.open .faq-q svg { transform: rotate(180deg); }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.35s;
+  }
+  .faq-item.open .faq-a {
+    max-height: 200px;
+    padding: 0 22px 18px;
+  }
+  .faq-a p {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* === Footer === */
   footer {
     text-align: center;
-    padding: 2rem;
-    border-top: 3px double var(--ink);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .65rem;
-    color: var(--muted);
-    letter-spacing: .12em;
-    text-transform: uppercase;
+    padding: 60px 0 36px;
+    color: var(--text-dim);
+    font-size: 0.82rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* === Animations === */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  @media (max-width: 760px) {
-    .layout { grid-template-columns: 1fr; }
-    .sidebar { display: none; }
-    .feed { border: none; padding: 0; }
+  /* === Responsive === */
+  @media (max-width: 640px) {
+    .input-group { flex-direction: column; }
+    .btn-convert { width: 100%; justify-content: center; }
+    .features { grid-template-columns: 1fr; }
+    .converter { padding: 24px 20px; }
+    nav ul { display: none; }
   }
+
+  /* Spinner */
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2.5px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    display: none;
+  }
+  .btn-convert.loading .spinner { display: block; }
+  .btn-convert.loading .btn-text { display: none; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
 
-<header class="masthead">
-  <h1>@elonmusk</h1>
-  <div class="masthead-sub">
-    <span class="accent-rule"></span>
-    The last seven days on X · A personal archive
-    <span class="accent-rule"></span>
-  </div>
-</header>
+<div class="bg-grid"></div>
+<div class="bg-orb bg-orb--1"></div>
+<div class="bg-orb bg-orb--2"></div>
 
-<div class="layout">
-
-  <!-- LEFT SIDEBAR -->
-  <aside class="sidebar">
+<!-- Top Leaderboard Banner Ad -->
+<div class="top-banner-wrap">
+  <div class="ad-slot--banner">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-6352881613971826"
          data-ad-slot="8477703194"
-         data-ad-format="auto"
+         data-ad-format="horizontal"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</div>
+
+<!-- 3-Column Page Layout -->
+<div class="page-layout">
+
+  <!-- Left Ad Rail -->
+  <aside class="ad-rail">
+    <div class="ad-sticky">
+      <div class="ad-slot ad-slot--tall">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6352881613971826"
+             data-ad-slot="8477703194"
+             data-ad-format="vertical"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
   </aside>
 
-  <!-- TWEET FEED -->
-  <!-- ============================================================
-    HOW TO ADD YOUR TWEETS:
-    1. Go to x.com and open one of your tweets
-    2. Click the ··· menu → "Embed post"
-    3. Copy the <blockquote>...</blockquote> code Twitter gives you
-    4. Paste it inside a new <div class="tweet-wrap"> block below
-    5. Repeat for each tweet — newest at the top!
-  ============================================================ -->
-  <main class="feed" id="feed">
+  <!-- Main Content -->
+  <div class="wrapper">
 
-    <div class="tweet-wrap">
-      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Grok can watch videos for you <a href="https://t.co/2zVa6nbt4Q">https://t.co/2zVa6nbt4Q</a></p>&mdash; Elon Musk (@elonmusk) <a href="https://twitter.com/elonmusk/status/2029384571788407254?ref_src=twsrc%5Etfw">March 5, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-      </blockquote>
+  <!-- Nav -->
+  <nav>
+    <a href="#" class="logo">
+      <span class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      </span>
+      TubeGrab
+    </a>
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#" style="color:var(--accent)">API</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      100% Free &mdash; No Sign Up Required
+    </div>
+    <h1>Download YouTube<br>videos in <span class="accent">MP4</span></h1>
+    <p>Paste any YouTube link and get your video in seconds. High quality, lightning fast, zero ads.</p>
+  </section>
+
+  <!-- Converter -->
+  <div class="converter">
+    <div class="input-group">
+      <input type="text" id="urlInput" placeholder="Paste YouTube URL here — e.g. https://youtube.com/watch?v=..." spellcheck="false" autocomplete="off">
+      <button class="btn-convert" id="convertBtn" onclick="startConvert()">
+        <span class="btn-text">Convert</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+    <div class="format-row">
+      <span class="format-label">Format:</span>
+      <div class="format-options">
+        <button class="format-btn active" data-format="mp4">MP4</button>
+        <button class="format-btn" data-format="webm">WEBM</button>
+        <button class="format-btn" data-format="mp3">MP3</button>
+      </div>
+    </div>
+    <div class="quality-row">
+      <span class="format-label">Quality:</span>
+      <div class="format-options">
+        <button class="format-btn active" data-quality="1080p">1080p</button>
+        <button class="format-btn" data-quality="720p">720p</button>
+        <button class="format-btn" data-quality="480p">480p</button>
+        <button class="format-btn" data-quality="360p">360p</button>
+      </div>
     </div>
 
-    <div class="tweet-wrap">
-      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Coming soon</p>&mdash; Elon Musk (@elonmusk) <a href="https://twitter.com/elonmusk/status/2029383236691149108?ref_src=twsrc%5Etfw">March 5, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-      </blockquote>
+    <!-- Result -->
+    <div class="result" id="resultPanel">
+      <div class="result-header">
+        <div class="result-thumb" id="thumb">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="3"/><polygon points="10 8 16 12 10 16" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="result-info">
+          <h3 id="videoTitle">Loading video info...</h3>
+          <p id="videoMeta">--</p>
+        </div>
+      </div>
+      <div class="progress-text">
+        <span id="progressLabel">Processing...</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <button class="btn-download" id="downloadBtn" onclick="simulateDownload()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download File
+      </button>
     </div>
+  </div>
 
-    <div class="tweet-wrap">
-      <blockquote class="twitter-tweet"><p lang="en" dir="ltr">One day ♥️ <a href="https://t.co/eyR2hB5w7q">https://t.co/eyR2hB5w7q</a></p>&mdash; Elon Musk (@elonmusk) <a href="https://twitter.com/elonmusk/status/2029379176273490414?ref_src=twsrc%5Etfw">March 5, 2026</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
-      </blockquote>
+  <!-- Inline Mid-Content Ad -->
+  <div style="display:flex;justify-content:center;margin-top:40px;">
+    <div class="ad-slot--banner" style="max-width:100%;min-height:100px;">
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-6352881613971826"
+           data-ad-slot="4399361964"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
+  </div>
 
-  </main>
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="feature">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <h3>Blazing Fast</h3>
+      <p>Our servers process your video in seconds. No queues, no waiting around.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>100% Secure</h3>
+      <p>Encrypted connections. No data stored. Your privacy is always protected.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      </div>
+      <h3>No Ads Ever</h3>
+      <p>A clean, distraction-free experience. No pop-ups, overlays, or redirects.</p>
+    </div>
+  </section>
 
-  <!-- RIGHT SIDEBAR -->
-  <aside class="sidebar">
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <h2>Questions & Answers</h2>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Is TubeGrab free to use?
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a"><p>Yes, completely free with no hidden fees. No account needed — just paste your link and download.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        What video quality is supported?
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a"><p>We support up to 1080p Full HD. Select your preferred quality before converting.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Can I download audio only?
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a"><p>Absolutely. Choose MP3 as the format and we'll extract the audio track for you.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        Does it work on mobile devices?
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a"><p>Yes! TubeGrab is fully responsive and works on any device with a modern browser.</p></div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2026 TubeGrab &mdash; Built with care. Not affiliated with YouTube.
+    <br>
+    <a href="#">Terms</a> &nbsp;&middot;&nbsp; <a href="#">Privacy</a> &nbsp;&middot;&nbsp; <a href="#">Contact</a>
+  </footer>
+
+  </div><!-- /.wrapper -->
+
+  <!-- Right Ad Rail -->
+  <aside class="ad-rail">
+    <div class="ad-sticky">
+      <div class="ad-slot ad-slot--medium">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6352881613971826"
+             data-ad-slot="4399361964"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-slot ad-slot--square">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6352881613971826"
+             data-ad-slot="8477703194"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+      <div class="ad-slot ad-slot--medium">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6352881613971826"
+             data-ad-slot="4399361964"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
+  </aside>
+
+</div><!-- /.page-layout -->
+
+<!-- Bottom Leaderboard Banner Ad -->
+<div class="bottom-banner-wrap">
+  <div class="ad-slot--banner">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-6352881613971826"
-         data-ad-slot="4399361964"
-         data-ad-format="auto"
+         data-ad-slot="8477703194"
+         data-ad-format="horizontal"
          data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </aside>
-
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
 </div>
 
-<footer>
-  <span>Showing tweets from the past 7 days</span>
-  &nbsp;·&nbsp;
-  <span id="footer-date"></span>
-  &nbsp;·&nbsp;
-  <a href="privacy-policy.html" style="color:inherit;">Privacy Policy</a>
-</footer>
-
-<!-- Twitter embed script -->
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
 <script>
-  const now = new Date();
-  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  document.getElementById('footer-date').textContent = now.toLocaleDateString('en-US', opts);
+  // Format and quality selectors
+  document.querySelectorAll('.format-options').forEach(group => {
+    group.querySelectorAll('.format-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        group.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  });
 
-  // Stagger the fade-in animations
-  document.querySelectorAll('.tweet-wrap').forEach((el, i) => {
-    el.style.animationDelay = (i * 80) + 'ms';
+  // FAQ accordion
+  function toggleFaq(el) {
+    el.parentElement.classList.toggle('open');
+  }
+
+  // Demo titles for simulation
+  const demoTitles = [
+    "10 Hours of Relaxing Nature Sounds",
+    "JavaScript Full Course for Beginners 2026",
+    "Epic Mountain Biking Compilation",
+    "How to Cook the Perfect Steak",
+    "Lofi Hip Hop Radio — Beats to Study To",
+    "Top 10 Amazing Facts About Space",
+  ];
+
+  function extractVideoId(url) {
+    const regex = /(?:v=|\/shorts\/|youtu\.be\/)([\w-]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
+  }
+
+  function startConvert() {
+    const url = document.getElementById('urlInput').value.trim();
+    if (!url) {
+      document.getElementById('urlInput').focus();
+      document.getElementById('urlInput').style.borderColor = 'var(--accent)';
+      setTimeout(() => document.getElementById('urlInput').style.borderColor = '', 1200);
+      return;
+    }
+
+    const btn = document.getElementById('convertBtn');
+    const result = document.getElementById('resultPanel');
+    const bar = document.getElementById('progressBar');
+    const pctEl = document.getElementById('progressPct');
+    const labelEl = document.getElementById('progressLabel');
+    const dlBtn = document.getElementById('downloadBtn');
+
+    // Reset
+    btn.classList.add('loading');
+    btn.disabled = true;
+    dlBtn.classList.remove('show');
+    bar.style.width = '0%';
+    result.classList.add('show');
+
+    // Video info
+    const videoId = extractVideoId(url);
+    const title = demoTitles[Math.floor(Math.random() * demoTitles.length)];
+    const format = document.querySelector('[data-format].active')?.dataset.format || 'mp4';
+    const quality = document.querySelector('[data-quality].active')?.dataset.quality || '1080p';
+
+    document.getElementById('videoTitle').textContent = title;
+    document.getElementById('videoMeta').textContent = `${format.toUpperCase()} • ${quality} • ~45 MB`;
+
+    // Try to show real thumbnail
+    const thumb = document.getElementById('thumb');
+    if (videoId) {
+      thumb.innerHTML = `<img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" alt="thumb" onerror="this.parentElement.innerHTML='<svg width=28 height=28 viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1.5\\'><rect x=2 y=2 width=20 height=20 rx=3/><polygon points=\\'10 8 16 12 10 16\\' fill=\\'currentColor\\' stroke=\\'none\\'/></svg>'">`;
+    }
+
+    // Simulate progress
+    let progress = 0;
+    const labels = ['Fetching video info...', 'Processing video...', 'Encoding...', 'Finalizing...'];
+    const interval = setInterval(() => {
+      progress += Math.random() * 12 + 3;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        labelEl.textContent = 'Ready to download!';
+        pctEl.textContent = '100%';
+        bar.style.width = '100%';
+        btn.classList.remove('loading');
+        btn.disabled = false;
+        dlBtn.classList.add('show');
+        return;
+      }
+      bar.style.width = progress + '%';
+      pctEl.textContent = Math.round(progress) + '%';
+      labelEl.textContent = labels[Math.min(Math.floor(progress / 28), labels.length - 1)];
+    }, 350);
+  }
+
+  function simulateDownload() {
+    const btn = document.getElementById('downloadBtn');
+    btn.textContent = '✓ Download Started!';
+    btn.style.background = 'var(--success)';
+    btn.style.boxShadow = '0 4px 20px rgba(34,197,94,0.3)';
+    setTimeout(() => {
+      btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download File`;
+      btn.style.background = '';
+      btn.style.boxShadow = '';
+    }, 2500);
+  }
+
+  // Enter key support
+  document.getElementById('urlInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') startConvert();
   });
 </script>
 
