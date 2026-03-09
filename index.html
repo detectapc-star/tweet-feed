@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TubeGrab — YouTube to MP4 Converter</title>
-<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<title>FocusForge — Science-Backed Productivity Tips & Deep Work Strategies</title>
+<meta name="description" content="Practical, research-backed productivity advice. Learn deep work strategies, time management techniques, and focus methods that actually work.">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6352881613971826"
@@ -14,648 +15,309 @@
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --surface-2: #1a1a26;
-    --border: #2a2a3a;
-    --accent: #ff3c5f;
-    --accent-glow: #ff3c5f55;
-    --accent-2: #7c3aed;
-    --text: #e8e8f0;
-    --text-dim: #8888a0;
-    --success: #22c55e;
-    --radius: 14px;
+    --bg: #FAFAF7;
+    --surface: #FFFFFF;
+    --surface-2: #F2F0EB;
+    --border: #E2DFD8;
+    --border-light: #EDEBE6;
+    --accent: #D4572A;
+    --accent-soft: #D4572A18;
+    --accent-2: #2A6B4D;
+    --accent-2-soft: #2A6B4D14;
+    --ink: #1A1815;
+    --ink-dim: #6B6560;
+    --ink-faint: #9C9790;
+    --warm: #F5E6D3;
+    --radius: 12px;
+    --shadow-sm: 0 1px 3px rgba(26,24,21,0.04), 0 1px 2px rgba(26,24,21,0.06);
+    --shadow-md: 0 4px 16px rgba(26,24,21,0.06), 0 2px 6px rgba(26,24,21,0.04);
   }
 
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Outfit', sans-serif;
     background: var(--bg);
-    color: var(--text);
+    color: var(--ink);
     min-height: 100vh;
     overflow-x: hidden;
-    position: relative;
+    line-height: 1.6;
   }
 
-  /* === Animated Background === */
-  .bg-grid {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    background-image:
-      linear-gradient(rgba(255,60,95,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,60,95,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%);
-  }
-
-  .bg-orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(120px);
-    z-index: 0;
-    animation: orbFloat 12s ease-in-out infinite alternate;
-  }
-  .bg-orb--1 {
-    width: 500px; height: 500px;
-    top: -150px; left: -100px;
-    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
-    opacity: 0.12;
-  }
-  .bg-orb--2 {
-    width: 400px; height: 400px;
-    bottom: -100px; right: -80px;
-    background: radial-gradient(circle, var(--accent-2) 0%, transparent 70%);
-    opacity: 0.1;
-    animation-delay: -6s;
-  }
-
-  @keyframes orbFloat {
-    to { transform: translate(40px, 30px) scale(1.1); }
-  }
-
-  /* === Layout === */
-  .page-layout {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: 160px 1fr 160px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 16px;
-    gap: 24px;
-  }
-
-  .wrapper {
-    min-width: 0;
-  }
-
-  /* === Side Ad Columns === */
-  .ad-rail {
-    padding-top: 180px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-  }
-
-  .ad-slot {
-    width: 160px;
-    background: var(--surface);
-    border: 1.5px dashed var(--border);
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-dim);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    position: relative;
-    transition: border-color 0.3s;
-    overflow: hidden;
-  }
-  .ad-slot:hover { border-color: var(--accent); }
-
-  .ad-slot--tall { height: 600px; }
-  .ad-slot--medium { height: 300px; }
-  .ad-slot--square { height: 160px; }
-
-  .ad-sticky {
-    position: sticky;
-    top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-  }
-
-  .ad-slot--banner {
-    width: 100%;
-    height: 90px;
-    max-width: 728px;
-    border-radius: 12px;
-    background: var(--surface);
-    border: 1.5px dashed var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-dim);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.3s;
-  }
-  .ad-slot--banner:hover { border-color: var(--accent); }
-
-  .ad-slot-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
     opacity: 0.5;
   }
-  .ad-slot-inner svg { opacity: 0.4; }
-  .ad-slot-label {
-    font-size: 0.62rem;
-    color: var(--text-dim);
-    opacity: 0.4;
-    margin-top: 4px;
+
+  .page-wrap {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  }
+  .content-grid {
+    display: grid; grid-template-columns: 1fr 280px; gap: 48px; align-items: start;
+  }
+  .main-col { min-width: 0; }
+  .side-col {
+    position: sticky; top: 24px;
+    display: flex; flex-direction: column; gap: 24px;
   }
 
-  /* Shimmer effect on ad slots */
-  .ad-slot::before, .ad-slot--banner::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      135deg,
-      transparent 30%,
-      rgba(255,255,255,0.02) 50%,
-      transparent 70%
-    );
-    background-size: 200% 200%;
-    animation: adShimmer 6s ease-in-out infinite;
+  @media (max-width: 900px) {
+    .content-grid { grid-template-columns: 1fr; }
+    .side-col { position: static; }
   }
 
-  @keyframes adShimmer {
-    0%, 100% { background-position: 200% 200%; }
-    50% { background-position: 0% 0%; }
-  }
-
-  /* Top banner ad */
-  .top-banner-wrap {
-    position: relative;
-    z-index: 1;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 16px 16px 0;
-    display: flex;
-    justify-content: center;
-  }
-
-  /* Bottom banner */
-  .bottom-banner-wrap {
-    position: relative;
-    z-index: 1;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 16px;
-    display: flex;
-    justify-content: center;
-  }
-
-  /* Hide side rails on smaller screens */
-  @media (max-width: 1060px) {
-    .page-layout {
-      grid-template-columns: 1fr;
-      max-width: 780px;
-    }
-    .ad-rail { display: none; }
-  }
-
-  /* === Navbar === */
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 24px 0;
-    animation: fadeDown 0.6s ease-out;
-  }
-  .logo {
-    font-family: 'Dela Gothic One', sans-serif;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: var(--text);
-  }
-  .logo-icon {
-    width: 38px; height: 38px;
-    background: var(--accent);
-    border-radius: 10px;
-    display: grid;
-    place-items: center;
-    box-shadow: 0 0 20px var(--accent-glow);
-    position: relative;
-    overflow: hidden;
-  }
-  .logo-icon::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2));
-  }
-  .logo-icon svg { position: relative; z-index: 1; }
-
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 28px;
-  }
-  nav a {
-    color: var(--text-dim);
-    text-decoration: none;
-    font-size: 0.92rem;
-    font-weight: 500;
-    transition: color 0.2s;
-  }
-  nav a:hover { color: var(--text); }
-
-  /* === Hero === */
-  .hero {
-    text-align: center;
-    padding: 80px 0 40px;
-    animation: fadeUp 0.7s ease-out 0.1s both;
-  }
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    padding: 6px 16px 6px 8px;
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    margin-bottom: 28px;
-  }
-  .badge-dot {
-    width: 8px; height: 8px;
-    background: var(--success);
-    border-radius: 50%;
-    box-shadow: 0 0 8px rgba(34,197,94,0.5);
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .hero h1 {
-    font-family: 'Dela Gothic One', sans-serif;
-    font-size: clamp(2.2rem, 6vw, 3.6rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 20px;
-  }
-  .hero h1 .accent { color: var(--accent); }
-  .hero p {
-    color: var(--text-dim);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 520px;
-    margin: 0 auto;
-  }
-
-  /* === Converter Card === */
-  .converter {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 36px;
-    margin-top: 40px;
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.7s ease-out 0.25s both;
-  }
-  .converter::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  }
-
-  .input-group {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .input-group input {
-    flex: 1;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    font-size: 1rem;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.25s, box-shadow 0.25s;
-  }
-  .input-group input::placeholder { color: var(--text-dim); }
-  .input-group input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-glow);
-  }
-
-  .btn-convert {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--accent);
-    color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 700;
-    font-size: 0.95rem;
-    border: none;
-    border-radius: var(--radius);
-    padding: 16px 28px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: transform 0.15s, box-shadow 0.25s, background 0.25s;
-    box-shadow: 0 4px 20px var(--accent-glow);
-  }
-  .btn-convert:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px var(--accent-glow);
-  }
-  .btn-convert:active { transform: translateY(0); }
-  .btn-convert:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  /* === Format Selector === */
-  .format-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .format-label {
-    color: var(--text-dim);
-    font-size: 0.88rem;
-    font-weight: 500;
-  }
-  .format-options {
-    display: flex;
-    gap: 8px;
-  }
-  .format-btn {
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 8px 18px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .format-btn:hover { border-color: var(--text-dim); color: var(--text); }
-  .format-btn.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #fff;
-    box-shadow: 0 0 14px var(--accent-glow);
-  }
-
-  .quality-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-top: 14px;
-    flex-wrap: wrap;
-  }
-
-  /* === Result Panel === */
-  .result {
-    display: none;
-    margin-top: 28px;
-    padding: 24px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    animation: fadeUp 0.4s ease-out;
-  }
-  .result.show { display: block; }
-
-  .result-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-  .result-thumb {
-    width: 120px;
-    height: 68px;
-    background: var(--surface-2);
-    border-radius: 10px;
-    overflow: hidden;
-    flex-shrink: 0;
-    display: grid;
-    place-items: center;
-  }
-  .result-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .result-thumb svg { opacity: 0.3; }
-  .result-info h3 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-    line-height: 1.3;
-  }
-  .result-info p {
-    font-size: 0.82rem;
-    color: var(--text-dim);
-  }
-
-  /* Progress Bar */
-  .progress-wrap {
-    background: var(--surface-2);
-    border-radius: 100px;
-    height: 8px;
-    overflow: hidden;
-    margin-bottom: 16px;
-  }
-  .progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--accent), var(--accent-2));
-    border-radius: 100px;
-    transition: width 0.3s ease-out;
-  }
-  .progress-text {
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-  }
-
-  .btn-download {
-    display: none;
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    border: none;
-    border-radius: var(--radius);
-    color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.25s;
-    box-shadow: 0 4px 20px rgba(124,58,237,0.3);
-    margin-top: 12px;
-  }
-  .btn-download.show { display: flex; align-items: center; justify-content: center; gap: 10px; }
-  .btn-download:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,0.4); }
-
-  /* === Features === */
-  .features {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-top: 60px;
-    animation: fadeUp 0.7s ease-out 0.4s both;
-  }
-  .feature {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px 22px;
-    transition: border-color 0.3s, transform 0.3s;
-  }
-  .feature:hover {
-    border-color: var(--accent);
-    transform: translateY(-4px);
-  }
-  .feature-icon {
-    width: 44px; height: 44px;
-    background: var(--surface-2);
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    margin-bottom: 16px;
-  }
-  .feature h3 {
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .feature p {
-    font-size: 0.82rem;
-    color: var(--text-dim);
-    line-height: 1.55;
-  }
-
-  /* === FAQ === */
-  .faq {
-    margin-top: 70px;
-    animation: fadeUp 0.7s ease-out 0.5s both;
-  }
-  .faq h2 {
-    font-family: 'Dela Gothic One', sans-serif;
-    font-size: 1.6rem;
-    text-align: center;
-    margin-bottom: 32px;
-  }
-  .faq-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 10px;
-    overflow: hidden;
+  /* Ads */
+  .ad-block {
+    background: var(--surface); border: 1.5px dashed var(--border);
+    border-radius: var(--radius); overflow: hidden; min-height: 100px;
+    display: flex; align-items: center; justify-content: center;
     transition: border-color 0.3s;
   }
-  .faq-item:hover { border-color: var(--accent); }
-  .faq-q {
-    padding: 18px 22px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: 600;
-    font-size: 0.93rem;
-    user-select: none;
-  }
-  .faq-q svg { transition: transform 0.3s; flex-shrink: 0; margin-left: 12px; }
-  .faq-item.open .faq-q svg { transform: rotate(180deg); }
-  .faq-a {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease, padding 0.35s;
-  }
-  .faq-item.open .faq-a {
-    max-height: 200px;
-    padding: 0 22px 18px;
-  }
-  .faq-a p {
-    font-size: 0.88rem;
-    color: var(--text-dim);
-    line-height: 1.6;
+  .ad-block:hover { border-color: var(--accent); }
+  .ad-block--banner { width: 100%; max-width: 728px; margin: 0 auto; min-height: 90px; }
+  .ad-block--sidebar { width: 100%; min-height: 250px; }
+  .ad-block--inline { width: 100%; margin: 40px 0; min-height: 100px; }
+  .banner-wrap {
+    display: flex; justify-content: center; padding: 20px 24px;
+    max-width: 1100px; margin: 0 auto;
   }
 
-  /* === Footer === */
+  /* Header */
+  header {
+    padding: 20px 0; display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border-light); animation: fadeDown 0.5s ease-out;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: var(--ink);
+  }
+  .logo-mark {
+    width: 36px; height: 36px; background: var(--accent); border-radius: 8px;
+    display: grid; place-items: center; box-shadow: 0 2px 8px rgba(212,87,42,0.25);
+    position: relative; overflow: hidden;
+  }
+  .logo-mark::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.25));
+  }
+  .logo-mark svg { position: relative; z-index: 1; }
+  .logo-text { font-family: 'Instrument Serif', serif; font-size: 1.5rem; }
+
+  nav ul { list-style: none; display: flex; gap: 32px; }
+  nav a {
+    color: var(--ink-dim); text-decoration: none; font-size: 0.9rem;
+    font-weight: 500; transition: color 0.2s;
+  }
+  nav a:hover { color: var(--accent); }
+  @media (max-width: 640px) { nav ul { display: none; } }
+
+  /* Hero */
+  .hero {
+    padding: 80px 0 60px; text-align: center; animation: fadeUp 0.6s ease-out 0.1s both;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent-soft); color: var(--accent);
+    border-radius: 100px; padding: 6px 16px; font-size: 0.8rem;
+    font-weight: 600; letter-spacing: 0.03em; margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Instrument Serif', serif; font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+    line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 20px; font-weight: 400;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--accent);
+    text-decoration: underline; text-decoration-color: var(--accent-soft);
+    text-underline-offset: 6px; text-decoration-thickness: 3px;
+  }
+  .hero p {
+    color: var(--ink-dim); font-size: 1.15rem; max-width: 560px;
+    margin: 0 auto; line-height: 1.7;
+  }
+
+  /* Section Headers */
+  .section-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 28px; padding-bottom: 16px; border-bottom: 2px solid var(--ink);
+  }
+  .section-header h2 {
+    font-family: 'Instrument Serif', serif; font-size: 1.6rem; font-weight: 400;
+  }
+  .section-header a {
+    color: var(--accent); font-size: 0.85rem; font-weight: 600; text-decoration: none;
+  }
+
+  /* Technique Cards */
+  .techniques { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 40px; }
+  .technique-card {
+    background: var(--surface); border: 1px solid var(--border-light);
+    border-radius: 16px; padding: 28px; box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.3s, transform 0.3s;
+  }
+  .technique-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .technique-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: grid; place-items: center; margin-bottom: 16px; font-size: 1.4rem;
+  }
+  .technique-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+  .technique-card p { font-size: 0.84rem; color: var(--ink-dim); line-height: 1.65; }
+
+  @media (max-width: 640px) { .techniques { grid-template-columns: 1fr; } }
+
+  /* Article Cards */
+  .article-card {
+    background: var(--surface); border: 1px solid var(--border-light);
+    border-radius: 16px; padding: 32px; margin-bottom: 20px;
+    box-shadow: var(--shadow-sm); transition: box-shadow 0.3s, transform 0.3s;
+  }
+  .article-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .tag {
+    display: inline-block; font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px;
+    border-radius: 6px; margin-bottom: 14px;
+  }
+  .tag--focus { background: var(--accent-soft); color: var(--accent); }
+  .tag--time { background: #7C3AED14; color: #7C3AED; }
+  .tag--habits { background: var(--accent-2-soft); color: var(--accent-2); }
+  .tag--mind { background: #0369A114; color: #0369A1; }
+
+  .article-card h3 {
+    font-family: 'Instrument Serif', serif; font-size: 1.35rem;
+    font-weight: 400; line-height: 1.3; margin-bottom: 12px;
+  }
+  .article-card p { color: var(--ink-dim); font-size: 0.92rem; line-height: 1.7; margin-bottom: 16px; }
+  .article-meta {
+    display: flex; align-items: center; gap: 16px;
+    font-size: 0.78rem; color: var(--ink-faint); font-weight: 500;
+  }
+  .article-meta span { display: flex; align-items: center; gap: 5px; }
+
+  /* Full Article */
+  .article-full { padding: 40px; }
+  .article-full h3 { font-size: 1.5rem; margin-bottom: 16px; }
+  .article-full .article-body p { font-size: 0.95rem; line-height: 1.8; margin-bottom: 16px; }
+  .article-full .article-body h4 {
+    font-family: 'Instrument Serif', serif; font-size: 1.15rem;
+    font-weight: 400; margin: 28px 0 12px;
+  }
+  .article-full .article-body ul {
+    margin: 12px 0 20px 20px; color: var(--ink-dim); font-size: 0.92rem; line-height: 1.8;
+  }
+  .article-full .article-body ul li { margin-bottom: 6px; }
+  .article-full .article-body blockquote {
+    border-left: 3px solid var(--accent); padding: 16px 24px;
+    background: var(--accent-soft); border-radius: 0 10px 10px 0;
+    margin: 24px 0; font-style: italic; color: var(--ink-dim); font-size: 0.95rem;
+  }
+  @media (max-width: 640px) { .article-full { padding: 24px; } }
+
+  /* Sidebar */
+  .sidebar-widget {
+    background: var(--surface); border: 1px solid var(--border-light);
+    border-radius: 16px; padding: 24px; box-shadow: var(--shadow-sm);
+  }
+  .sidebar-widget h3 {
+    font-family: 'Instrument Serif', serif; font-size: 1.1rem; font-weight: 400;
+    margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-light);
+  }
+  .topic-list { list-style: none; }
+  .topic-list li {
+    padding: 10px 0; border-bottom: 1px solid var(--border-light);
+    font-size: 0.88rem; color: var(--ink-dim);
+    display: flex; align-items: center; justify-content: space-between;
+    cursor: pointer; transition: color 0.2s;
+  }
+  .topic-list li:last-child { border-bottom: none; }
+  .topic-list li:hover { color: var(--accent); }
+  .topic-list .count {
+    font-size: 0.75rem; background: var(--surface-2); padding: 2px 8px;
+    border-radius: 100px; font-weight: 600; color: var(--ink-faint);
+  }
+
+  .tip-card {
+    background: linear-gradient(135deg, var(--warm) 0%, #FFF8F0 100%);
+    border: 1px solid #E8D5C0; border-radius: 16px; padding: 24px;
+  }
+  .tip-card h3 {
+    font-family: 'Instrument Serif', serif; font-size: 1.1rem;
+    margin-bottom: 12px; border: none; padding: 0;
+  }
+  .tip-card p { font-size: 0.88rem; color: var(--ink-dim); line-height: 1.7; }
+
+  /* Newsletter */
+  .newsletter {
+    background: var(--ink); color: var(--bg); border-radius: 20px;
+    padding: 48px; text-align: center; margin: 50px 0;
+    position: relative; overflow: hidden;
+  }
+  .newsletter::before {
+    content: ''; position: absolute; top: -50%; right: -20%;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%); opacity: 0.08;
+  }
+  .newsletter h2 {
+    font-family: 'Instrument Serif', serif; font-size: 1.8rem;
+    font-weight: 400; margin-bottom: 12px; position: relative;
+  }
+  .newsletter p {
+    color: #A09B95; font-size: 0.95rem; margin-bottom: 28px;
+    max-width: 440px; margin-left: auto; margin-right: auto; position: relative;
+  }
+  .newsletter-form {
+    display: flex; gap: 12px; max-width: 420px; margin: 0 auto; position: relative;
+  }
+  .newsletter-form input {
+    flex: 1; background: #2A2722; border: 1.5px solid #3A3732;
+    border-radius: 10px; padding: 14px 18px; color: var(--bg);
+    font-family: 'Outfit', sans-serif; font-size: 0.92rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .newsletter-form input::placeholder { color: #6B6560; }
+  .newsletter-form input:focus { border-color: var(--accent); }
+  .newsletter-form button {
+    background: var(--accent); color: #fff; border: none; border-radius: 10px;
+    padding: 14px 24px; font-family: 'Outfit', sans-serif; font-weight: 600;
+    font-size: 0.9rem; cursor: pointer; transition: transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 2px 12px rgba(212,87,42,0.3);
+  }
+  .newsletter-form button:hover {
+    transform: translateY(-1px); box-shadow: 0 4px 20px rgba(212,87,42,0.4);
+  }
+  @media (max-width: 500px) {
+    .newsletter-form { flex-direction: column; }
+    .newsletter { padding: 36px 24px; }
+  }
+
+  /* Footer */
   footer {
-    text-align: center;
-    padding: 60px 0 36px;
-    color: var(--text-dim);
-    font-size: 0.82rem;
+    border-top: 1px solid var(--border); padding: 40px 0; margin-top: 40px; text-align: center;
   }
-  footer a { color: var(--accent); text-decoration: none; }
+  .footer-inner {
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  }
+  footer p { font-size: 0.82rem; color: var(--ink-faint); }
+  footer a { color: var(--ink-dim); text-decoration: none; font-size: 0.82rem; font-weight: 500; }
+  footer a:hover { color: var(--accent); }
+  .footer-links { display: flex; gap: 24px; }
+  @media (max-width: 600px) { .footer-inner { justify-content: center; text-align: center; } }
 
-  /* === Animations === */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-14px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* === Responsive === */
-  @media (max-width: 640px) {
-    .input-group { flex-direction: column; }
-    .btn-convert { width: 100%; justify-content: center; }
-    .features { grid-template-columns: 1fr; }
-    .converter { padding: 24px 20px; }
-    nav ul { display: none; }
-  }
-
-  /* Spinner */
-  .spinner {
-    width: 18px; height: 18px;
-    border: 2.5px solid rgba(255,255,255,0.3);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
-    display: none;
-  }
-  .btn-convert.loading .spinner { display: block; }
-  .btn-convert.loading .btn-text { display: none; }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
+  /* Animations */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeUp 0.6s ease-out both; }
+  .fade-in-d1 { animation-delay: 0.15s; }
+  .fade-in-d2 { animation-delay: 0.25s; }
+  .fade-in-d3 { animation-delay: 0.35s; }
+  .fade-in-d4 { animation-delay: 0.45s; }
 </style>
 </head>
 <body>
 
-<div class="bg-grid"></div>
-<div class="bg-orb bg-orb--1"></div>
-<div class="bg-orb bg-orb--2"></div>
-
-<!-- Top Leaderboard Banner Ad -->
-<div class="top-banner-wrap">
-  <div class="ad-slot--banner">
+<!-- Top Banner Ad -->
+<div class="banner-wrap">
+  <div class="ad-block ad-block--banner">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-6352881613971826"
@@ -666,221 +328,280 @@
   </div>
 </div>
 
-<!-- 3-Column Page Layout -->
-<div class="page-layout">
+<div class="page-wrap">
 
-  <!-- Left Ad Rail -->
-  <aside class="ad-rail">
-    <div class="ad-sticky">
-      <div class="ad-slot ad-slot--tall">
+  <header>
+    <a href="#" class="logo">
+      <span class="logo-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </span>
+      <span class="logo-text">FocusForge</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="#techniques">Techniques</a></li>
+        <li><a href="#articles">Articles</a></li>
+        <li><a href="#guides">Guides</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-tag">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+      Science-Backed Productivity
+    </div>
+    <h1>Work smarter with<br><em>proven strategies</em></h1>
+    <p>Practical, research-backed techniques for deep focus, better time management, and building habits that stick. No fluff — just what works.</p>
+  </section>
+
+  <!-- Techniques -->
+  <section id="techniques">
+    <div class="section-header">
+      <h2>Popular Techniques</h2>
+      <a href="#">View all &rarr;</a>
+    </div>
+    <div class="techniques fade-in fade-in-d1">
+      <div class="technique-card">
+        <div class="technique-icon" style="background:#D4572A14;">🍅</div>
+        <h3>Pomodoro Technique</h3>
+        <p>Work in focused 25-minute intervals with 5-minute breaks. After four rounds, take a longer 15–30 minute break. The time pressure creates urgency while the breaks prevent burnout and maintain sustained attention throughout the day.</p>
+      </div>
+      <div class="technique-card">
+        <div class="technique-icon" style="background:#2A6B4D14;">🧊</div>
+        <h3>Time Blocking</h3>
+        <p>Assign every hour of your day to a specific task or category. By pre-committing your time, you eliminate decision fatigue and prevent reactive work from consuming your most productive hours.</p>
+      </div>
+      <div class="technique-card">
+        <div class="technique-icon" style="background:#7C3AED14;">🎯</div>
+        <h3>The 2-Minute Rule</h3>
+        <p>If a task takes less than two minutes, do it immediately instead of adding it to your list. This prevents small tasks from piling up and cluttering your mental bandwidth.</p>
+      </div>
+      <div class="technique-card">
+        <div class="technique-icon" style="background:#0369A114;">🐸</div>
+        <h3>Eat the Frog</h3>
+        <p>Tackle your most challenging task first thing in the morning when your willpower and cognitive resources are at their peak. Getting it done creates momentum for everything else.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Grid -->
+  <div class="content-grid">
+    <div class="main-col">
+
+      <!-- Featured Guide -->
+      <section id="guides">
+        <div class="section-header">
+          <h2>In-Depth Guide</h2>
+          <a href="#">All guides &rarr;</a>
+        </div>
+
+        <article class="article-card article-full fade-in fade-in-d2">
+          <span class="tag tag--focus">Deep Focus</span>
+          <h3>The Complete Guide to Deep Work: How to Achieve More in Less Time</h3>
+          <div class="article-meta" style="margin-bottom:24px;">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              12 min read
+            </span>
+            <span>Updated March 2026</span>
+          </div>
+          <div class="article-body">
+            <p>Deep work is the ability to focus without distraction on a cognitively demanding task. It's a skill that allows you to produce high-quality results in less time, master complicated subjects faster, and create work that stands out. In a world flooded with notifications, shallow meetings, and constant context-switching, deep work has become both increasingly rare and increasingly valuable.</p>
+
+            <h4>Why Deep Work Matters More Than Ever</h4>
+            <p>The modern knowledge economy rewards two abilities above all else: the ability to learn hard things quickly, and the ability to produce at an elite level in both quality and speed. Both of these core competencies require deep, focused work. Yet most professionals spend their days in a state of continuous partial attention — bouncing between email, chat, and fragmented tasks — which makes both learning and producing at a high level nearly impossible.</p>
+            <p>Research in cognitive science consistently shows that multitasking is a myth. What we call multitasking is actually rapid task-switching, and every switch carries a cognitive cost known as "attention residue." When you shift from Task A to Task B, part of your mind remains stuck on Task A, reducing your effectiveness on Task B. The more you switch, the more residue accumulates, and the shallower your work becomes.</p>
+
+            <blockquote>The key to deep work isn't working more hours — it's protecting the hours you have from interruption and distraction.</blockquote>
+
+            <h4>Building a Deep Work Practice</h4>
+            <p>You don't need to overhaul your entire life to start benefiting from deep work. Start small and build up gradually. The goal is to create reliable blocks of uninterrupted time and defend them consistently.</p>
+            <ul>
+              <li><strong>Schedule it:</strong> Block 90-minute to 2-hour sessions on your calendar. Treat these like unmovable meetings.</li>
+              <li><strong>Eliminate triggers:</strong> Close email, silence notifications, and put your phone in another room.</li>
+              <li><strong>Create a ritual:</strong> A consistent starting routine signals your brain that it's time to focus.</li>
+              <li><strong>Set a clear goal:</strong> Before each session, write down the single outcome you want to achieve.</li>
+              <li><strong>Track your depth:</strong> Keep a tally of deep work hours per week to build accountability.</li>
+            </ul>
+
+            <h4>Common Pitfalls and How to Avoid Them</h4>
+            <p>The biggest mistake beginners make is being too ambitious. If you're used to zero deep work, starting with four-hour sessions is a recipe for frustration. Begin with 30–60 minutes and increase gradually. Your capacity for sustained attention is like a muscle — it strengthens with consistent practice, but overtaxing it early leads to fatigue and discouragement.</p>
+            <p>Another common pitfall is failing to plan what you'll work on during deep sessions. Without a specific target, you'll waste the first 15–20 minutes deciding what to do. Decide the night before or first thing in the morning what your deep work sessions will tackle.</p>
+            <p>Finally, don't neglect rest. Deep work is cognitively intense. Most people can sustain 3–4 hours of truly deep work per day — and that's enough to produce exceptional results if the quality is high. Schedule downtime with the same intentionality you schedule focus time.</p>
+          </div>
+          <div class="article-meta">
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              342 likes
+            </span>
+            <span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              58 comments
+            </span>
+          </div>
+        </article>
+      </section>
+
+      <!-- Inline Ad -->
+      <div class="ad-block ad-block--inline">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6352881613971826"
+             data-ad-slot="4399361964"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <!-- Articles -->
+      <section id="articles">
+        <div class="section-header">
+          <h2>Latest Articles</h2>
+          <a href="#">View all &rarr;</a>
+        </div>
+
+        <article class="article-card fade-in fade-in-d2">
+          <span class="tag tag--time">Time Management</span>
+          <h3>Why Your To-Do List Isn't Working (And What to Do Instead)</h3>
+          <p>Traditional to-do lists set you up for failure by encouraging quantity over quality. They grow endlessly, create anxiety, and provide no structure for when tasks should be completed. Research suggests combining prioritization frameworks with time-blocked calendars. Instead of listing 30 items, identify your three most important tasks each day and assign them specific time slots.</p>
+          <div class="article-meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 7 min read</span>
+            <span>March 4, 2026</span>
+          </div>
+        </article>
+
+        <article class="article-card fade-in fade-in-d3">
+          <span class="tag tag--habits">Habits</span>
+          <h3>The Science of Habit Stacking: Chain New Behaviors to Existing Routines</h3>
+          <p>Habit stacking uses the neural pathways of established routines to anchor new behaviors. The formula is simple: "After I [current habit], I will [new habit]." By linking a new action to something you already do automatically — like brewing morning coffee — you remove the hardest part of habit formation: remembering to start.</p>
+          <div class="article-meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6 min read</span>
+            <span>Feb 27, 2026</span>
+          </div>
+        </article>
+
+        <!-- Inline Ad -->
+        <div class="ad-block ad-block--inline">
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-6352881613971826"
+               data-ad-slot="4399361964"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <article class="article-card fade-in fade-in-d3">
+          <span class="tag tag--mind">Mental Clarity</span>
+          <h3>Digital Minimalism: Reclaiming Your Attention in an Age of Distraction</h3>
+          <p>The average person checks their phone 96 times per day and spends over 2 hours on social media. Digital minimalism isn't about quitting technology — it's about being intentional with it. Start with a 30-day digital declutter: remove all optional apps and re-add only the ones that genuinely serve your goals.</p>
+          <div class="article-meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 9 min read</span>
+            <span>Feb 19, 2026</span>
+          </div>
+        </article>
+
+        <article class="article-card fade-in fade-in-d4">
+          <span class="tag tag--focus">Deep Focus</span>
+          <h3>Morning Routines of High Performers: What the Research Actually Shows</h3>
+          <p>Forget the 4AM wake-up cult. Research from chronobiology shows that peak cognitive performance is tied to your individual circadian rhythm, not a specific clock time. What high performers share is consistency and intentionality — they protect their first productive hours from reactive tasks like email and meetings.</p>
+          <div class="article-meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8 min read</span>
+            <span>Feb 12, 2026</span>
+          </div>
+        </article>
+
+        <article class="article-card fade-in fade-in-d4">
+          <span class="tag tag--habits">Habits</span>
+          <h3>Environment Design: Why Willpower Fails and Context Wins</h3>
+          <p>Decades of behavioral research point to a humbling truth: willpower is unreliable. Your environment shapes your behavior far more than your intentions do. Want to read more? Leave a book on your pillow instead of your phone. Making desired behaviors easier — and undesired ones harder — is dramatically more effective than relying on motivation alone.</p>
+          <div class="article-meta">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 5 min read</span>
+            <span>Feb 5, 2026</span>
+          </div>
+        </article>
+      </section>
+
+      <!-- Newsletter -->
+      <div class="newsletter fade-in fade-in-d4">
+        <h2>Get smarter about productivity</h2>
+        <p>One actionable tip per week. No spam, no fluff — just research-backed ideas you can use immediately.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="you@example.com" aria-label="Email address">
+          <button onclick="this.textContent='Subscribed ✓'; this.style.background='#2A6B4D';">Subscribe</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="side-col">
+
+      <div class="ad-block ad-block--sidebar">
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-6352881613971826"
              data-ad-slot="8477703194"
-             data-ad-format="vertical"
+             data-ad-format="auto"
              data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
       </div>
-    </div>
-  </aside>
 
-  <!-- Main Content -->
-  <div class="wrapper">
+      <div class="sidebar-widget">
+        <h3>Browse Topics</h3>
+        <ul class="topic-list">
+          <li>Deep Focus & Flow States <span class="count">14</span></li>
+          <li>Time Management <span class="count">11</span></li>
+          <li>Habit Building <span class="count">9</span></li>
+          <li>Morning Routines <span class="count">7</span></li>
+          <li>Mental Clarity <span class="count">8</span></li>
+          <li>Work-Life Balance <span class="count">6</span></li>
+          <li>Energy Management <span class="count">5</span></li>
+        </ul>
+      </div>
 
-  <!-- Nav -->
-  <nav>
-    <a href="#" class="logo">
-      <span class="logo-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-      </span>
-      TubeGrab
-    </a>
-    <ul>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#faq">FAQ</a></li>
-      <li><a href="#" style="color:var(--accent)">API</a></li>
-    </ul>
-  </nav>
+      <div class="tip-card">
+        <h3>💡 Tip of the Day</h3>
+        <p>Set a "shutdown ritual" at the end of each workday: review tomorrow's tasks, close all tabs, and say a specific phrase like "schedule complete." This helps your brain disengage from work, improving both evening relaxation and next-day focus.</p>
+      </div>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="badge">
-      <span class="badge-dot"></span>
-      100% Free &mdash; No Sign Up Required
-    </div>
-    <h1>Download YouTube<br>videos in <span class="accent">MP4</span></h1>
-    <p>Paste any YouTube link and get your video in seconds. High quality, lightning fast, zero ads.</p>
-  </section>
+      <div class="ad-block ad-block--sidebar">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6352881613971826"
+             data-ad-slot="4399361964"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
 
-  <!-- Converter -->
-  <div class="converter">
-    <div class="input-group">
-      <input type="text" id="urlInput" placeholder="Paste YouTube URL here — e.g. https://youtube.com/watch?v=..." spellcheck="false" autocomplete="off">
-      <button class="btn-convert" id="convertBtn" onclick="startConvert()">
-        <span class="btn-text">Convert</span>
-        <div class="spinner"></div>
-      </button>
-    </div>
-    <div class="format-row">
-      <span class="format-label">Format:</span>
-      <div class="format-options">
-        <button class="format-btn active" data-format="mp4">MP4</button>
-        <button class="format-btn" data-format="webm">WEBM</button>
-        <button class="format-btn" data-format="mp3">MP3</button>
+      <div class="sidebar-widget" id="about">
+        <h3>About FocusForge</h3>
+        <p style="font-size:0.88rem;color:var(--ink-dim);line-height:1.7;">We distill productivity research into practical, actionable advice. Every article is grounded in peer-reviewed science and real-world testing — no hype, no guru worship, just what actually works for getting meaningful things done.</p>
       </div>
-    </div>
-    <div class="quality-row">
-      <span class="format-label">Quality:</span>
-      <div class="format-options">
-        <button class="format-btn active" data-quality="1080p">1080p</button>
-        <button class="format-btn" data-quality="720p">720p</button>
-        <button class="format-btn" data-quality="480p">480p</button>
-        <button class="format-btn" data-quality="360p">360p</button>
-      </div>
-    </div>
 
-    <!-- Result -->
-    <div class="result" id="resultPanel">
-      <div class="result-header">
-        <div class="result-thumb" id="thumb">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="3"/><polygon points="10 8 16 12 10 16" fill="currentColor" stroke="none"/></svg>
-        </div>
-        <div class="result-info">
-          <h3 id="videoTitle">Loading video info...</h3>
-          <p id="videoMeta">--</p>
-        </div>
-      </div>
-      <div class="progress-text">
-        <span id="progressLabel">Processing...</span>
-        <span id="progressPct">0%</span>
-      </div>
-      <div class="progress-wrap">
-        <div class="progress-bar" id="progressBar"></div>
-      </div>
-      <button class="btn-download" id="downloadBtn" onclick="simulateDownload()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Download File
-      </button>
-    </div>
+    </aside>
   </div>
-
-  <!-- Inline Mid-Content Ad -->
-  <div style="display:flex;justify-content:center;margin-top:40px;">
-    <div class="ad-slot--banner" style="max-width:100%;min-height:100px;">
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-6352881613971826"
-           data-ad-slot="4399361964"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    </div>
-  </div>
-
-  <!-- Features -->
-  <section class="features" id="features">
-    <div class="feature">
-      <div class="feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      </div>
-      <h3>Blazing Fast</h3>
-      <p>Our servers process your video in seconds. No queues, no waiting around.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      </div>
-      <h3>100% Secure</h3>
-      <p>Encrypted connections. No data stored. Your privacy is always protected.</p>
-    </div>
-    <div class="feature">
-      <div class="feature-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-      </div>
-      <h3>No Ads Ever</h3>
-      <p>A clean, distraction-free experience. No pop-ups, overlays, or redirects.</p>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq" id="faq">
-    <h2>Questions & Answers</h2>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        Is TubeGrab free to use?
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-a"><p>Yes, completely free with no hidden fees. No account needed — just paste your link and download.</p></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        What video quality is supported?
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-a"><p>We support up to 1080p Full HD. Select your preferred quality before converting.</p></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        Can I download audio only?
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-a"><p>Absolutely. Choose MP3 as the format and we'll extract the audio track for you.</p></div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q" onclick="toggleFaq(this)">
-        Does it work on mobile devices?
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-a"><p>Yes! TubeGrab is fully responsive and works on any device with a modern browser.</p></div>
-    </div>
-  </section>
 
   <footer>
-    &copy; 2026 TubeGrab &mdash; Built with care. Not affiliated with YouTube.
-    <br>
-    <a href="#">Terms</a> &nbsp;&middot;&nbsp; <a href="#">Privacy</a> &nbsp;&middot;&nbsp; <a href="#">Contact</a>
-  </footer>
-
-  </div><!-- /.wrapper -->
-
-  <!-- Right Ad Rail -->
-  <aside class="ad-rail">
-    <div class="ad-sticky">
-      <div class="ad-slot ad-slot--medium">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6352881613971826"
-             data-ad-slot="4399361964"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      </div>
-      <div class="ad-slot ad-slot--square">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6352881613971826"
-             data-ad-slot="8477703194"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-      </div>
-      <div class="ad-slot ad-slot--medium">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-6352881613971826"
-             data-ad-slot="4399361964"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <div class="footer-inner">
+      <p>&copy; 2026 FocusForge. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Contact</a>
+        <a href="#">RSS Feed</a>
       </div>
     </div>
-  </aside>
+  </footer>
 
-</div><!-- /.page-layout -->
+</div>
 
-<!-- Bottom Leaderboard Banner Ad -->
-<div class="bottom-banner-wrap">
-  <div class="ad-slot--banner">
+<!-- Bottom Banner Ad -->
+<div class="banner-wrap">
+  <div class="ad-block ad-block--banner">
     <ins class="adsbygoogle"
          style="display:block"
          data-ad-client="ca-pub-6352881613971826"
@@ -890,116 +611,6 @@
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 </div>
-
-<script>
-  // Format and quality selectors
-  document.querySelectorAll('.format-options').forEach(group => {
-    group.querySelectorAll('.format-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        group.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-      });
-    });
-  });
-
-  // FAQ accordion
-  function toggleFaq(el) {
-    el.parentElement.classList.toggle('open');
-  }
-
-  // Demo titles for simulation
-  const demoTitles = [
-    "10 Hours of Relaxing Nature Sounds",
-    "JavaScript Full Course for Beginners 2026",
-    "Epic Mountain Biking Compilation",
-    "How to Cook the Perfect Steak",
-    "Lofi Hip Hop Radio — Beats to Study To",
-    "Top 10 Amazing Facts About Space",
-  ];
-
-  function extractVideoId(url) {
-    const regex = /(?:v=|\/shorts\/|youtu\.be\/)([\w-]{11})/;
-    const match = url.match(regex);
-    return match ? match[1] : null;
-  }
-
-  function startConvert() {
-    const url = document.getElementById('urlInput').value.trim();
-    if (!url) {
-      document.getElementById('urlInput').focus();
-      document.getElementById('urlInput').style.borderColor = 'var(--accent)';
-      setTimeout(() => document.getElementById('urlInput').style.borderColor = '', 1200);
-      return;
-    }
-
-    const btn = document.getElementById('convertBtn');
-    const result = document.getElementById('resultPanel');
-    const bar = document.getElementById('progressBar');
-    const pctEl = document.getElementById('progressPct');
-    const labelEl = document.getElementById('progressLabel');
-    const dlBtn = document.getElementById('downloadBtn');
-
-    // Reset
-    btn.classList.add('loading');
-    btn.disabled = true;
-    dlBtn.classList.remove('show');
-    bar.style.width = '0%';
-    result.classList.add('show');
-
-    // Video info
-    const videoId = extractVideoId(url);
-    const title = demoTitles[Math.floor(Math.random() * demoTitles.length)];
-    const format = document.querySelector('[data-format].active')?.dataset.format || 'mp4';
-    const quality = document.querySelector('[data-quality].active')?.dataset.quality || '1080p';
-
-    document.getElementById('videoTitle').textContent = title;
-    document.getElementById('videoMeta').textContent = `${format.toUpperCase()} • ${quality} • ~45 MB`;
-
-    // Try to show real thumbnail
-    const thumb = document.getElementById('thumb');
-    if (videoId) {
-      thumb.innerHTML = `<img src="https://img.youtube.com/vi/${videoId}/mqdefault.jpg" alt="thumb" onerror="this.parentElement.innerHTML='<svg width=28 height=28 viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1.5\\'><rect x=2 y=2 width=20 height=20 rx=3/><polygon points=\\'10 8 16 12 10 16\\' fill=\\'currentColor\\' stroke=\\'none\\'/></svg>'">`;
-    }
-
-    // Simulate progress
-    let progress = 0;
-    const labels = ['Fetching video info...', 'Processing video...', 'Encoding...', 'Finalizing...'];
-    const interval = setInterval(() => {
-      progress += Math.random() * 12 + 3;
-      if (progress >= 100) {
-        progress = 100;
-        clearInterval(interval);
-        labelEl.textContent = 'Ready to download!';
-        pctEl.textContent = '100%';
-        bar.style.width = '100%';
-        btn.classList.remove('loading');
-        btn.disabled = false;
-        dlBtn.classList.add('show');
-        return;
-      }
-      bar.style.width = progress + '%';
-      pctEl.textContent = Math.round(progress) + '%';
-      labelEl.textContent = labels[Math.min(Math.floor(progress / 28), labels.length - 1)];
-    }, 350);
-  }
-
-  function simulateDownload() {
-    const btn = document.getElementById('downloadBtn');
-    btn.textContent = '✓ Download Started!';
-    btn.style.background = 'var(--success)';
-    btn.style.boxShadow = '0 4px 20px rgba(34,197,94,0.3)';
-    setTimeout(() => {
-      btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download File`;
-      btn.style.background = '';
-      btn.style.boxShadow = '';
-    }, 2500);
-  }
-
-  // Enter key support
-  document.getElementById('urlInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') startConvert();
-  });
-</script>
 
 </body>
 </html>
